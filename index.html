@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Ассистент для Клиники - Концепция</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --light-bg: #f9f9f9;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #2980b9);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .dashboard {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        .chart-container {
+            height: 400px;
+            margin: 30px 0;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            background-color: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .requirements {
+            background-color: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: white;
+            border-radius: 30px;
+            padding: 5px 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .language-toggle button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .language-toggle button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .steps {
+            counter-reset: step-counter;
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .steps li {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 20px;
+            counter-increment: step-counter;
+        }
+        
+        .steps li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 35px;
+            height: 35px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .target-audience {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .target-audience h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #666;
+        }
+        
+        .en {
+            display: none;
+        }
+        
+        .show-en .ru {
+            display: none;
+        }
+        
+        .show-en .en {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                padding: 30px 0;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="language-toggle">
+        <button id="ru-btn" class="active">RU</button>
+        <button id="en-btn">EN</button>
+    </div>
+    
+    <header>
+        <div class="container">
+            <h1 class="ru">AI Ассистент для Клиники</h1>
+            <h1 class="en">AI Assistant for Clinic</h1>
+            <p class="ru">Комплексное решение для автоматизации взаимодействия с пациентами и партнерами</p>
+            <p class="en">Comprehensive solution for automating interactions with patients and partners</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Дашборд с графиком -->
+        <div class="dashboard">
+            <h2 class="ru">Почему нужен AI Ассистент?</h2>
+            <h2 class="en">Why is an AI Assistant Needed?</h2>
+            <div class="chart-container">
+                <svg viewBox="0 0 800 400" width="100%" height="100%">
+                    <!-- Оси / Axes -->
+                    <line x1="50" y1="350" x2="750" y2="350" stroke="#333" stroke-width="2" />
+                    <line x1="50" y1="50" x2="50" y2="350" stroke="#333" stroke-width="2" />
+                    
+                    <!-- Названия осей / Axis Labels -->
+                    <text x="400" y="390" text-anchor="middle" font-size="14" class="ru">Этапы взаимодействия с клиникой</text>
+                    <text x="400" y="390" text-anchor="middle" font-size="14" class="en">Stages of Interaction with the Clinic</text>
+                    <text x="15" y="200" text-anchor="middle" transform="rotate(-90, 15, 200)" font-size="14" class="ru">Количество пользователей (%)</text>
+                    <text x="15" y="200" text-anchor="middle" transform="rotate(-90, 15, 200)" font-size="14" class="en">Number of Users (%)</text>
+                    
+                    <!-- Данные для графика - Текущий процесс / Data for Chart - Current Process -->
+                    <polyline points="50,100 200,150 350,210 500,270 650,320" 
+                              stroke="#e74c3c" stroke-width="3" fill="none" />
+                    
+                    <!-- Данные для графика - С AI ассистентом / Data for Chart - With AI Assistant -->
+                    <polyline points="50,100 200,120 350,140 500,180 650,230" 
+                              stroke="#2ecc71" stroke-width="3" fill="none" />
+                    
+                    <!-- Подписи к линиям / Line Labels -->
+                    <text x="700" y="320" fill="#e74c3c" font-size="12" class="ru">Текущий процесс</text>
+                    <text x="700" y="320" fill="#e74c3c" font-size="12" class="en">Current Process</text>
+                    <text x="700" y="230" fill="#2ecc71" font-size="12" class="ru">С AI ассистентом</text>
+                    <text x="700" y="230" fill="#2ecc71" font-size="12" class="en">With AI Assistant</text>
+                    
+                    <!-- Подписи на оси X / X Axis Labels -->
+                    <text x="50" y="370" text-anchor="middle" font-size="11" class="ru">Первый контакт</text>
+                    <text x="50" y="370" text-anchor="middle" font-size="11" class="en">First Contact</text>
+                    <text x="200" y="370" text-anchor="middle" font-size="11" class="ru">Поиск информации</text>
+                    <text x="200" y="370" text-anchor="middle" font-size="11" class="en">Information Search</text>
+                    <text x="350" y="370" text-anchor="middle" font-size="11" class="ru">Ответы на вопросы</text>
+                    <text x="350" y="370" text-anchor="middle" font-size="11" class="en">Answering Questions</text>
+                    <text x="500" y="370" text-anchor="middle" font-size="11" class="ru">Запись на консультацию</text>
+                    <text x="500" y="370" text-anchor="middle" font-size="11" class="en">Booking Consultation</text>
+                    <text x="650" y="370" text-anchor="middle" font-size="11" class="ru">Оплата услуг</text>
+                    <text x="650" y="370" text-anchor="middle" font-size="11" class="en">Payment for Services</text>
+                    
+                    <!-- Подписи на оси Y / Y Axis Labels -->
+                    <text x="35" y="350" text-anchor="end" font-size="11">0%</text>
+                    <text x="35" y="275" text-anchor="end" font-size="11">25%</text>
+                    <text x="35" y="200" text-anchor="end" font-size="11">50%</text>
+                    <text x="35" y="125" text-anchor="end" font-size="11">75%</text>
+                    <text x="35" y="50" text-anchor="end" font-size="11">100%</text>
+                    
+                    <!-- Вертикальные линии сетки / Vertical Grid Lines -->
+                    <line x1="50" y1="350" x2="50" y2="345" stroke="#333" stroke-width="1" />
+                    <line x1="200" y1="350" x2="200" y2="345" stroke="#333" stroke-width="1" />
+                    <line x1="350" y1="350" x2="350" y2="345" stroke="#333" stroke-width="1" />
+                    <line x1="500" y1="350" x2="500" y2="345" stroke="#333" stroke-width="1" />
+                    <line x1="650" y1="350" x2="650" y2="345" stroke="#333" stroke-width="1" />
+                    
+                    <!-- Горизонтальные линии сетки / Horizontal Grid Lines -->
+                    <line x1="45" y1="350" x2="750" y2="350" stroke="#ccc" stroke-width="1" stroke-dasharray="5,5" />
+                    <line x1="45" y1="275" x2="750" y2="275" stroke="#ccc" stroke-width="1" stroke-dasharray="5,5" />
+                    <line x1="45" y1="200" x2="750" y2="200" stroke="#ccc" stroke-width="1" stroke-dasharray="5,5" />
+                    <line x1="45" y1="125" x2="750" y2="125" stroke="#ccc" stroke-width="1" stroke-dasharray="5,5" />
+                    <line x1="45" y1="50" x2="750" y2="50" stroke="#ccc" stroke-width="1" stroke-dasharray="5,5" />
+                </svg>
+            </div>
+            <div class="highlight">
+                <p class="ru"><strong>График показывает:</strong> На каждом этапе взаимодействия с клиникой теряется часть потенциальных клиентов. AI ассистент значительно снижает отток пользователей благодаря быстрой и персонализированной поддержке на всех этапах.</p>
+                <p class="en"><strong>The chart shows:</strong> At each stage of interaction with the clinic, a portion of potential clients is lost. The AI assistant significantly reduces user churn through fast and personalized support at all stages.</p>
+            </div>
+        </div>
+
+        <!-- Проблемы и цели -->
+        <div class="section">
+            <h2 class="ru">Проблемы и цели</h2>
+            <h2 class="en">Problems and Goals</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="ru">Высокий поток информации</h3>
+                    <h3 class="en">High Information Flow</h3>
+                    <p class="ru">Тысячи email, множество запросов по разным каналам создают информационную перегрузку.</p>
+                    <p class="en">Thousands of emails and multiple requests through different channels create information overload.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Неэффективность обработки</h3>
+                    <h3 class="en">Processing Inefficiency</h3>
+                    <p class="ru">Сайт не справляется с потоком запросов, ручная работа отнимает значительное время персонала.</p>
+                    <p class="en">The website cannot handle the flow of requests, and manual processing takes up significant staff time.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Сложность для пользователей</h3>
+                    <h3 class="en">User Complexity</h3>
+                    <p class="ru">Люди не читают длинные сообщения, ленятся искать информацию самостоятельно, хотят получать готовые ответы.</p>
+                    <p class="en">People don't read long messages, are reluctant to search for information on their own, and want ready-made answers.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Повторяющиеся вопросы</h3>
+                    <h3 class="en">Repetitive Questions</h3>
+                    <p class="ru">Частые вопросы о цене, одинаковые комментарии и возражения требуют автоматизации.</p>
+                    <p class="en">Frequent questions about pricing, identical comments, and objections require automation.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Риски администраторов</h3>
+                    <h3 class="en">Administrator Risks</h3>
+                    <p class="ru">Человеческий фактор: сотрудники могут нарушать правила или не предоставлять полную информацию.</p>
+                    <p class="en">Human factor: staff may violate rules or fail to provide complete information.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Защита персональных данных</h3>
+                    <h3 class="en">Personal Data Protection</h3>
+                    <p class="ru">Необходимость соблюдать GDPR и другие законы о защите персональных данных.</p>
+                    <p class="en">The need to comply with GDPR and other personal data protection laws.</p>
+                </div>
+            </div>
+            <div class="highlight">
+                <h3 class="ru">Основные цели внедрения AI ассистента:</h3>
+                <h3 class="en">Main Goals of AI Assistant Implementation:</h3>
+                <ul class="ru">
+                    <li><strong>Экономия времени персонала</strong> за счет автоматизации рутинных задач</li>
+                    <li><strong>Повышение конверсии</strong> — направление заинтересованных людей на конкретные действия</li>
+                    <li><strong>Улучшение качества обслуживания</strong> и доступности информации для пациентов</li>
+                </ul>
+                <ul class="en">
+                    <li><strong>Staff Time Savings</strong> through automation of routine tasks</li>
+                    <li><strong>Increased Conversion</strong> — directing interested people to specific actions</li>
+                    <li><strong>Improved Service Quality</strong> and accessibility of information for patients</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Функции и возможности ассистента -->
+        <div class="section">
+            <h2 class="ru">Функции и возможности AI ассистента</h2>
+            <h2 class="en">Functions and Capabilities of the AI Assistant</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="ru">Обработка первичных запросов</h3>
+                    <h3 class="en">Primary Request Processing</h3>
+                    <p class="ru">Сортировка обращений, предоставление стандартной информации, первичная квалификация.</p>
+                    <p class="en">Sorting inquiries, providing standard information, initial qualification.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">База знаний</h3>
+                    <h3 class="en">Knowledge Base</h3>
+                    <p class="ru">Отвечает на основе контента сайта, научных работ и накопленного клиникой опыта.</p>
+                    <p class="en">Responds based on website content, scientific papers, and the clinic's accumulated experience.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Интерпретация данных</h3>
+                    <h3 class="en">Data Interpretation</h3>
+                    <p class="ru">Анализ медицинских данных (например, результатов анализов), связь с регенеративной медициной.</p>
+                    <p class="en">Analysis of medical data (e.g., test results), connection with regenerative medicine.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Предоставление проекций</h3>
+                    <h3 class="en">Providing Projections</h3>
+                    <p class="ru">Оценка примерной стоимости услуг, длительности и этапов лечения.</p>
+                    <p class="en">Estimation of approximate service costs, duration, and treatment stages.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Фильтрация</h3>
+                    <h3 class="en">Filtering</h3>
+                    <p class="ru">Отсеивание нецелевых или неадекватных запросов, защита от ботов и спама.</p>
+                    <p class="en">Filtering out non-targeted or inappropriate requests, protection from bots and spam.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Сбор информации</h3>
+                    <h3 class="en">Information Collection</h3>
+                    <p class="ru">Ведение записей о пользователях, аналитика обращений и запросов.</p>
+                    <p class="en">Keeping records of users, analytics of inquiries and requests.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Направление трафика</h3>
+                    <h3 class="en">Traffic Direction</h3>
+                    <p class="ru">Перенаправление пользователей с разных каналов (TikTok, WhatsApp) на сайт клиники.</p>
+                    <p class="en">Redirecting users from different channels (TikTok, WhatsApp) to the clinic's website.</p>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Управление коммуникацией</h3>
+                    <h3 class="en">Communication Management</h3>
+                    <p class="ru">Выдача ссылок на защищенные сервисы для дальнейшего общения с соблюдением конфиденциальности.</p>
+                    <p class="en">Providing links to secure services for further communication with confidentiality.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Требования для подготовки -->
+        <div class="section">
+            <h2 class="ru">Что нужно подготовить</h2>
+            <h2 class="en">What Needs to Be Prepared</h2>
+            <div class="requirements">
+                <ul class="ru">
+                    <li><strong>Описание каналов связи</strong> — все существующие точки контакта с аудиторией</li>
+                    <li><strong>Список возражений и запросов</strong> — частые вопросы и опасения пользователей</li>
+                    <li><strong>Определение целевой аудитории</strong> — хотя бы по основным направлениям (аутизм, суставы и др.)</li>
+                    <li><strong>Подготовка сайта</strong> — убедиться, что он готов принимать трафик и интегрироваться с системой</li>
+                    <li><strong>Создание/систематизация базы знаний</strong> — информация с сайта, научные данные, внутренние протоколы лечения</li>
+                    <li><strong>Описание пользовательских сценариев</strong> — откуда приходят пользователи, как происходит процесс оплаты</li>
+                </ul>
+                <ul class="en">
+                    <li><strong>Communication Channels Description</strong> — all existing points of contact with the audience</li>
+                    <li><strong>List of Objections and Requests</strong> — frequent questions and concerns of users</li>
+                    <li><strong>Target Audience Definition</strong> — at least by main directions (autism, joints, etc.)</li>
+                    <li><strong>Website Preparation</strong> — ensure it's ready to receive traffic and integrate with the system</li>
+                    <li><strong>Knowledge Base Creation/Systematization</strong> — information from the website, scientific data, internal treatment protocols</li>
+                    <li><strong>User Flow Description</strong> — where users come from, how the payment process works</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- План внедрения -->
+        <div class="section">
+            <h2 class="ru">План внедрения</h2>
+            <h2 class="en">Implementation Plan</h2>
+            <ol class="steps">
+                <li>
+                    <h3 class="ru">Минимальный вариант</h3>
+                    <h3 class="en">Minimal Version</h3>
+                    <p class="ru">Начать с Google таблицы для сбора данных и базовой интеграции.</p>
+                    <p class="en">Start with a Google spreadsheet for data collection and basic integration.</p>
+                </li>
+                <li>
+                    <h3 class="ru">Оптимальная интеграция</h3>
+                    <h3 class="en">Optimal Integration</h3>
+                    <p class="ru">Подключение к CRM-системе клиники для полноценной работы.</p>
+                    <p class="en">Connection to the clinic's CRM system for full functionality.</p>
+                </li>
+                <li>
+                    <h3 class="ru">Покрытие каналов связи</h3>
+                    <h3 class="en">Communication Channel Coverage</h3>
+                    <p class="ru">Последовательное подключение к сайту, WhatsApp, TikTok и другим используемым платформам.</p>
+                    <p class="en">Sequential connection to the website, WhatsApp, TikTok, and other platforms used.</p>
+                </li>
+                <li>
+                    <h3 class="ru">Настройка системы</h3>
+                    <h3 class="en">System Configuration</h3>
+                    <p class="ru">От простых автоматических ответов до записи на консультации и приемы.</p>
+                    <p class="en">From simple automatic responses to booking consultations and appointments.</p>
+                </li>
+                <li>
+                    <h3 class="ru">Работа с данными</h3>
+                    <h3 class="en">Data Management</h3>
+                    <p class="ru">Настройка безопасного хранения данных у клиники и пользователя, временная или зашифрованная обработка для обеспечения конфиденциальности.</p>
+                    <p class="en">Setting up secure data storage for the clinic and user, temporary or encrypted processing to ensure confidentiality.</p>
+                </li>
+            </ol>
+            <div class="highlight">
+                <p class="ru"><strong>Важно:</strong> Внедрение происходит поэтапно, с постепенным расширением функционала и охвата каналов коммуникации.</p>
+                <p class="en"><strong>Important:</strong> Implementation occurs in stages, with gradual expansion of functionality and communication channel coverage.</p>
+            </div>
+        </div>
+
+        <!-- Целевые направления -->
+        <div class="section">
+            <h2 class="ru">Целевые направления и аудитории</h2>
+            <h2 class="en">Target Directions and Audiences</h2>
+            <div class="target-audience">
+                <h3 class="ru">Приоритетные терапевтические направления</h3>
+                <h3 class="en">Priority Therapeutic Directions</h3>
+                <ul class="ru">
+                    <li><strong>Аутизм</strong> — текущее приоритетное направление с высоким спросом</li>
+                    <li><strong>Проблемы суставов</strong> — актуально для пожилых пациентов и других возрастных групп</li>
+                </ul>
+                <ul class="en">
+                    <li><strong>Autism</strong> — current priority direction with high demand</li>
+                    <li><strong>Joint Problems</strong> — relevant for elderly patients and other age groups</li>
+                </ul>
+            </div>
+            <div class="target-audience">
+                <h3 class="ru">Географические направления</h3>
+                <h3 class="en">Geographic Directions</h3>
+                <ul class="ru">
+                    <li><strong>Медицинский туризм:</strong> Арабские Эмираты (основной фокус)</li>
+                    <li><strong>Потенциально:</strong> Корея, Китай (с учетом культурных и языковых особенностей)</li>
+                    <li><strong>Южная Корея:</strong> Развитие регенеративной медицины, платежеспособная аудитория</li>
+                </ul>
+                <ul class="en">
+                    <li><strong>Medical Tourism:</strong> United Arab Emirates (main focus)</li>
+                    <li><strong>Potentially:</strong> Korea, China (taking into account cultural and linguistic features)</li>
+                    <li><strong>South Korea:</strong> Development of regenerative medicine, financially capable audience</li>
+                </ul>
+            </div>
+            <div class="target-audience">
+                <h3 class="ru">Бизнес-партнеры</h3>
+                <h3 class="en">Business Partners</h3>
+                <ul class="ru">
+                    <li>Поиск и взаимодействие через профессиональные платформы типа LinkedIn</li>
+                    <li>Развитие партнерской сети для медицинского туризма</li>
+                </ul>
+                <ul class="en">
+                    <li>Search and interaction through professional platforms like LinkedIn</li>
+                    <li>Development of a partner network for medical tourism</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Следующие шаги -->
+        <div class="section">
+            <h2 class="ru">Следующие шаги</h2>
+            <h2 class="en">Next Steps</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="ru">Ближайшие события</h3>
+                    <h3 class="en">Upcoming Events</h3>
+                    <ul class="ru">
+                        <li>Встреча в среду для детального обсуждения</li>
+                        <li>Подготовка материалов к завтрашнему вечеру</li>
+                        <li>Планируется поездка в Тбилиси для личной встречи</li>
+                    </ul>
+                    <ul class="en">
+                        <li>Meeting on Wednesday for detailed discussion</li>
+                        <li>Preparation of materials for tomorrow evening</li>
+                        <li>Trip to Tbilisi planned for a personal meeting</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Оценка проекта</h3>
+                    <h3 class="en">Project Evaluation</h3>
+                    <p class="ru"><strong>Стоимость и сроки</strong> зависят от:</p>
+                    <p class="en"><strong>Cost and timeline</strong> depend on:</p>
+                    <ul class="ru">
+                        <li>Объема требуемого функционала</li>
+                        <li>Скорости предоставления информации для настройки</li>
+                        <li>Количества интегрируемых каналов коммуникации</li>
+                    </ul>
+                    <ul class="en">
+                        <li>Volume of required functionality</li>
+                        <li>Speed of providing information for setup</li>
+                        <li>Number of communication channels to be integrated</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 class="ru">Дополнительные направления</h3>
+                    <h3 class="en">Additional Directions</h3>
+                    <ul class="ru">
+                        <li><strong>Бизнес в США:</strong> Пока на стадии исследования, не маркетинг</li>
+                        <li><strong>Цифровая гигиена:</strong> Обучение пользователей ценности их медицинских данных</li>
+                    </ul>
+                    <ul class="en">
+                        <li><strong>Business in the USA:</strong> Currently at the research stage, not marketing</li>
+                        <li><strong>Digital Hygiene:</strong> Teaching users the value of their medical data</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 AI Ассистент для Клиники | <a href="https://t.me/amoraroma" style="color: var(--primary-color); text-decoration: none; font-weight: bold;">amoraroma.t.me (PERFECTxPERFORMANCE)</a></p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ruBtn = document.getElementById('ru-btn');
+            const enBtn = document.getElementById('en-btn');
+            const body = document.body;
+            
+            ruBtn.addEventListener('click', function() {
+                body.classList.remove('show-en');
+                ruBtn.classList.add('active');
+                enBtn.classList.remove('active');
+            });
+            
+            enBtn.addEventListener('click', function() {
+                body.classList.add('show-en');
+                enBtn.classList.add('active');
+                ruBtn.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
